@@ -1,0 +1,314 @@
+<?xml version="1.0"?>
+<robot name="physics">
+ 
+ <!-- Rover should be facing X axis -->
+
+  <!--Despite the name, this is actually gray plastic.-->
+  <material name="grey_plastic">
+    <!-- <unreal_material path="Material'/AirSim/VehicleAdv/SUV/AutomotiveMaterials/Materials/Plastic/MI_Plastic_Matte_Black.MI_Plastic_Matte_Black'"/> -->
+    <color rgba="0 1.0 1.0 1.0"/>
+  </material>
+  
+  <material name="black_plastic">
+    <!-- <unreal_material path="Material'/AirSim/VehicleAdv/SUV/AutomotiveMaterials/Materials/Plastic/M_Plastic_Matte.M_Plastic_Matte'"/> -->
+    <color rgba="0 1.0 1.0 1.0"/>
+  </material>
+
+  <material name="tire_rubber">
+    <!-- <unreal_material path="Material'/AirSim/VehicleAdv/SUV/AutomotiveMaterials/Materials/Rubber/M_TireRubber.M_TireRubber'"/> -->
+    <color rgba="0 1.0 1.0 1.0"/>
+  </material>
+  
+  <link name="base_footprint"/>
+
+  <joint name="footprint_mainbox" type="fixed">
+    <parent link="base_footprint"/>
+    <child link="main_box"/>
+    <origin rpy="0 0 0" xyz="0 0 0.3"/>
+    <axis rpy="0 0 0" xyz="0 0 1"/>
+  </joint>
+
+  <link name="main_box">
+    <visual>
+      <geometry>
+        <box size="1 0.8 0.6"/>
+      </geometry>
+      <material name="black_plastic"/>
+    </visual>
+    <collision>
+        <geometry>
+            <!-- The to-be-commented XML block goes here. -->
+            <box size="1 0.8 0.6"/>
+        </geometry>
+    </collision>
+    <inertial>
+      <mass value="100"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+  </link>
+  
+    <!-- FRONT LEFT LEG -->
+  <link name="fl_leg">
+    <visual>
+      <geometry>
+        <box size="0.1 0.1 0.6"/>
+      </geometry>
+      <material name="black_plastic"/>
+    </visual>
+    <collision>
+        <geometry>
+            <box size="0.1 0.1 0.6"/>
+        </geometry>
+    </collision>
+    <inertial>
+      <mass value="6"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+  </link>
+  
+  <joint name="main_box_to_fl_leg" type="fixed">
+    <parent link="main_box"/>
+    <child link="fl_leg"/>
+    <origin rpy="0 -0.35 0" xyz="0.5 -0.45 -0.5"/>
+    <axis rpy="0 0 0" xyz="0 0 1"/>
+  </joint>
+
+  <link name="wheel_fl">
+    <visual>
+      <geometry>
+        <cylinder length="0.15" radius="0.2"/>
+      </geometry>
+      <material name="tire_rubber"/>
+    </visual>
+    <collision>
+        <geometry>
+           <cylinder length="0.15" radius="0.2"/>
+        </geometry>
+    </collision>
+    <inertial>
+      <mass value="3"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+  </link>
+
+  <joint name="fl_leg_to_wheel_fl" type="continuous">
+    <parent link="fl_leg"/>
+    <child link="wheel_fl"/>
+    <origin rpy="0 1.5707 1.5707" xyz="0.0 -0.13 -0.20"/>
+    <axis rpy="0 0 0" xyz="0 0 1"/>
+    <!-- <limit lower="0" upper="0" effort="20" velocity="1"/> -->
+  </joint>
+
+    <!--============================================================================-->
+  
+  <!-- FRONT RIGHT LEG -->
+  <link name="fr_leg">
+    <visual>
+      <geometry>
+        <box size="0.1 0.1 0.6"/>
+      </geometry>
+      <material name="black_plastic"/>
+    </visual>
+    <collision>
+        <geometry>
+            <box size="0.1 0.1 0.6"/>
+        </geometry>
+    </collision>
+    <inertial>
+      <mass value="6"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+  </link>
+  
+  <joint name="main_box_to_fr_leg" type="fixed">
+    <parent link="main_box"/>
+    <child link="fr_leg"/>
+    <origin rpy="0 -0.35 0" xyz="0.5 0.45 -0.5"/>
+    <axis rpy="0 0 0" xyz="0 0 1"/>
+  </joint>
+
+  <link name="wheel_fr">
+    <visual>
+      <geometry>
+        <cylinder length="0.15" radius="0.2"/>
+      </geometry>
+      <material name="tire_rubber"/>
+    </visual>
+    <collision>
+        <geometry>
+           <cylinder length="0.15" radius="0.2"/>
+        </geometry>
+    </collision>
+    <inertial>
+      <mass value="3"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+  </link>
+  
+  <joint name="fr_leg_to_wheel_fr" type="continuous">
+    <parent link="fr_leg"/>
+    <child link="wheel_fr"/>
+    <origin rpy="0 1.5707 1.5707" xyz="0.0 0.13 -0.20"/>
+    <axis rpy="0 0 0" xyz="0 0 1"/>
+    <!-- <limit lower="0" upper="0" effort="20" velocity="1"/> -->
+  </joint>
+
+
+  <!-- BACK STEERING LEFT LEG ===================================================== -->
+  <link name="bl_leg">
+    <visual>
+      <geometry>
+        <cylinder length="0.6" radius="0.05"/>
+      </geometry>
+      <material name="black_plastic"/>
+    </visual>
+    <collision>
+        <geometry>
+            <cylinder length="0.6" radius="0.05"/>
+        </geometry>
+    </collision>
+    <inertial>
+      <mass value="6"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+  </link>
+  
+  <joint name="main_box_to_bl_leg" type="fixed">
+    <parent link="main_box"/>
+    <child link="bl_leg"/>
+    <origin rpy="0 0 0" xyz="-0.5 -0.45 -0.5"/>
+    <!--axis rpy="0 0 0" xyz="0 0 1"/-->
+    <!--limit lower="-0.5" upper="0.5" effort="10" velocity="0.5"/ -->
+  </joint>
+
+  <link name="wheel_bl">
+    <visual>
+      <geometry>
+        <cylinder length="0.15" radius="0.2"/>
+      </geometry>
+      <material name="tire_rubber"/>
+    </visual>
+    <collision>
+        <geometry>
+           <cylinder length="0.15" radius="0.2"/>
+        </geometry>
+    </collision>
+    <inertial>
+      <mass value="6"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+  </link>
+  
+  <joint name="bl_leg_to_wheel_bl" type="continuous">
+    <parent link="bl_leg"/>
+    <child link="wheel_bl"/>
+    <origin rpy="0 1.5707 1.5707" xyz="0.0 -0.13 -0.2"/>
+    <axis rpy="0 0 0" xyz="0 0 1"/>
+    <!--limit lower="0" upper="0" effort="10000" velocity="1"/ -->
+  </joint>
+
+<!-- BACK STEERING RIGHT LEG ====================================================-->
+  <link name="br_leg">
+    <visual>
+      <geometry>
+        <cylinder length="0.6" radius="0.05"/>
+      </geometry>
+      <material name="black_plastic"/>
+    </visual>
+    <collision>
+        <geometry>
+            <cylinder length="0.6" radius="0.05"/>
+        </geometry>
+    </collision>
+    <inertial>
+      <mass value="6"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+  </link>
+  
+  <joint name="main_box_to_br_leg" type="fixed">
+    <parent link="main_box"/>
+    <child link="br_leg"/>
+    <origin rpy="0 0 0" xyz="-0.5 0.45 -0.5"/>
+    <!--axis rpy="0 0 0" xyz="0 0 1"/-->
+    <!--limit lower="-0.5" upper="0.5" effort="10" velocity="0.5"/ -->
+  </joint>
+
+  <link name="wheel_br">
+    <visual>
+      <geometry>
+        <cylinder length="0.15" radius="0.2"/>
+      </geometry>
+      <material name="tire_rubber"/>
+    </visual>
+    <collision>
+        <geometry>
+           <cylinder length="0.15" radius="0.2"/>
+        </geometry>
+    </collision>
+    <inertial>
+      <mass value="6"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+  </link>
+  
+  <joint name="br_leg_to_wheel_br" type="continuous">
+    <parent link="br_leg"/>
+    <child link="wheel_br"/>
+    <origin rpy="0 1.5707 1.5707" xyz="0.0 0.13 -0.2"/>
+    <axis rpy="0 0 0" xyz="0 0 1"/>
+    <!--limit lower="0" upper="0" effort="10000" velocity="1"/-->
+  </joint>
+
+  <link name="imu_link">
+    <visual>
+      <geometry>
+        <box size="0.1 0.1 0.01"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.1 0.1 0.01"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.05"/>
+      <inertia ixx="1.0e-5" ixy="0.0" ixz="0.0" iyy="1.0e-5" iyz="0.0" izz="1.0e-5"/>
+    </inertial>
+  </link>
+
+  <joint name="imu_to_mainbox" type="fixed">
+    <parent link="main_box"/>
+    <child link="imu_link"/>
+    <origin rpy="0 0 0" xyz="0 0 0.3005"/>
+    <axis rpy="0 0 0" xyz="0 0 1"/>
+  </joint>
+
+  <!--TRANSMISSION OF THE WHEEL JOINTS-->
+  <transmission name="" type="">
+  </transmission>
+
+  <!-- Transmission is important to link the joints and the controller -->
+<transmission name="br_leg_to_wheel_br_trans">
+  <type>transmission_interface/SimpleTransmission</type>
+  <joint name="br_leg_to_wheel_br">
+       <hardwareInterface>EffortJointInterface</hardwareInterface>
+  </joint>
+  <actuator name="br_leg_to_wheel_br_motor">
+    <hardwareInterface>EffortJointInterface</hardwareInterface>
+    <mechanicalReduction>1</mechanicalReduction>
+  </actuator>
+</transmission>
+
+<transmission name="bl_leg_to_wheel_bl_trans">
+  <type>transmission_interface/SimpleTransmission</type>
+  <joint name="bl_leg_to_wheel_bl">
+       <hardwareInterface>EffortJointInterface</hardwareInterface>
+  </joint>
+  <actuator name="bl_leg_to_wheel_bl_motor">
+    <hardwareInterface>EffortJointInterface</hardwareInterface>
+    <mechanicalReduction>1</mechanicalReduction>
+  </actuator>
+</transmission>
+
+</robot>

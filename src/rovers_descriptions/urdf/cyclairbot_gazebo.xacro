@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+    <gazebo reference="main_box">
+      <material>Gazebo/Orange</material>
+    </gazebo>
+    <!--Front wheel assembly--> "realsense_baselink"/
+    <gazebo reference="fl_leg">
+      
+    </gazebo>
+
+    <gazebo reference="wheel_fl">
+      
+    </gazebo>
+
+    <gazebo reference="fr_leg">
+      
+    </gazebo>
+
+    <gazebo reference="wheel_fr">
+      
+    </gazebo>
+
+
+    <gazebo reference="bl_leg">
+      
+    </gazebo>
+
+    <gazebo reference="wheel_bl">
+
+    </gazebo>
+
+    <gazebo reference="br_leg">
+      
+    </gazebo>
+
+    <gazebo reference="wheel_br">
+
+    </gazebo>
+
+    <gazebo reference="imu_link">
+      <material>Gazebo/Gray</material>
+    </gazebo>
+
+    <gazebo reference="realsense_baselink">
+    </gazebo>
+    <gazebo reference="camera_link">
+    </gazebo>
+
+        <!-- ros2_control plugin -->
+    <gazebo>
+      <plugin name='diff_drive' filename='libgazebo_ros_diff_drive.so'>
+
+        <!-- wheels -->
+        <left_joint>bl_leg_to_wheel_bl</left_joint>
+        <right_joint>br_leg_to_wheel_br</right_joint>
+
+        <!-- kinematics -->
+        <wheel_separation>1.05</wheel_separation>
+        <wheel_diameter>0.4</wheel_diameter>
+
+        <!-- limits -->
+        <max_wheel_torque>20</max_wheel_torque>
+        <max_wheel_acceleration>1.0</max_wheel_acceleration>
+
+        <!-- output -->
+        <publish_odom>true</publish_odom>
+        <publish_odom_tf>true</publish_odom_tf>
+        <publish_wheel_tf>true</publish_wheel_tf>
+
+        <odometry_frame>odom</odometry_frame>
+        <robot_base_frame>main_box</robot_base_frame>
+
+      </plugin>
+    </gazebo>
+    
+    <!-- Imu sensor plugin -->
+    <gazebo reference="imu_link">
+      <gravity>true</gravity>
+      <sensor name='imu_sensor' type='imu'>
+          <always_on>1</always_on>
+          <update_rate>100</update_rate>
+          <visualize>1</visualize>
+        
+          <plugin name='imu_plugin' filename='libgazebo_ros_imu_sensor.so'>
+              <topicName>imu_data</topicName>
+              <bodyName>imu_link</bodyName>
+              <updateRateHZ>10.0</updateRateHZ>
+              <gaussianNoise>0.0</gaussianNoise>
+              <xyzOffset>0 0 0</xyzOffset>
+              <rpyOffset>0 0 0</rpyOffset>
+          </plugin>
+          <pose>0 0 0 0 0 0</pose>
+      </sensor>
+    </gazebo>
+
+</robot>

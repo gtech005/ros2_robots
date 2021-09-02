@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="neo_lwrtorso" >
+
+  
+
+ <!-- Meshes files for this project is installed here: /home/drone2021/satvikbot_ws/lwrros2_ws/install/lwr_description/share/-->
+  <!-- lwr-->
+  <!-- bring different robots  -->
+  <xacro:include filename="$(find neo_simulation2)/robots/mpo_700/mpo_700.urdf"/>
+
+  <xacro:include filename="$(find lwr_description)/robots/lwrtorso.urdf"/>
+
+  <joint name="base2torsobase_joint" type="fixed">
+    <axis xyz="0 0 1"/>
+    <origin rpy="0 0 0.0" xyz="0.338 0.1 0.223"/>
+    <parent link="base_link"/>
+    <child link="torsobase"/>
+  </joint>
+
+  <!-- joint between lwr_2_link and lwr_3_link -->
+
+  <link name="torsobase">
+    <inertial>
+      <origin
+        xyz="-1.40921289121243E-06 -0.0233297626126898 0.11815047247629"
+        rpy="0 0 0" />
+        <mass
+          value="1" />
+      <inertia
+        ixx="0.0156098024078732"
+        ixy="4.75479645197283E-08"
+        ixz="1.17852233217589E-07"
+        iyy="0.0153476851366831"
+        iyz="-0.00319215869825882"
+        izz="0.0044071430916942" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+          <cylinder height="0.2" radius="0.1"/>
+      </geometry>
+     
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <cylinder height="0.4" radius="0.1"/>
+      </geometry>
+    </collision>
+  </link> 
+
+
+  <joint name="base2torso_joint" type="continuous">
+    <axis xyz="0 0 1"/>
+    <origin rpy="0 0 0.0" xyz="0 0 0.2"/>
+    <parent link="torsobase"/>
+    <child link="horizontalbase"/>
+  </joint>
+
+  <link name="horizontalbase">
+    <inertial>
+      <origin
+        xyz="-1.40921289121243E-06 -0.0233297626126898 0.11815047247629"
+        rpy="0 0 0" />
+        <mass
+          value="0.1" />
+      <inertia
+        ixx="0.0156098024078732"
+        ixy="4.75479645197283E-08"
+        ixz="1.17852233217589E-07"
+        iyy="0.0153476851366831"
+        iyz="-0.00319215869825882"
+        izz="0.0044071430916942" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+          <cylinder length="0.3" radius="0.05"/>
+      </geometry>
+     
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <cylinder length="0.3" radius="0.05"/>
+      </geometry>
+    </collision>
+  </link> 
+  <joint name="torsobase2horiz_joint" type="continuous">
+    <axis xyz="0 1 0"/>
+    <origin rpy="0 0 0.0" xyz="0 0 0.2"/>
+    <parent link="horizontalbase"/>
+    <child link="worldbase"/>
+  </joint>
+
+
+</robot>
+
