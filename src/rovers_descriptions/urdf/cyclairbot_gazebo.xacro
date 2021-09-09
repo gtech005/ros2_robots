@@ -49,21 +49,48 @@
 
         <!-- ros2_control plugin -->
     <gazebo>
+      <plugin name="object_controller" filename="libgazebo_ros_planar_move.so">
+        
+        <commandTopic>cmd_vel</commandTopic>
+        <odometryTopic>odom</odometryTopic>
+        <robotNamespace> </robotNamespace>
+
+        <!-- Set control loop update rate -->
+        <odometryRate>100</odometryRate>
+        <!-- Set odom publish rate -->
+        <publish_rate>100</publish_rate>
+
+        <!-- Set if odom required -->
+        <publish_odom>true</publish_odom>
+        <publish_odom_tf>true</publish_odom_tf>
+
+        <!-- Frame IDs -->
+        <odometryFrame>odom</odometryFrame>
+        <robotBaseFrame>main_box</robotBaseFrame>
+
+        <!-- Set odom covariance -->
+        <covariance_x>0.0001</covariance_x>
+        <covariance_y>0.0001</covariance_y>
+        <covariance_yaw>0.0001</covariance_yaw>
+
+      </plugin> 
+    </gazebo>
+    
+    <!--
+    <gazebo>
       <plugin name='diff_drive' filename='libgazebo_ros_diff_drive.so'>
 
-        <!-- wheels -->
+        
         <left_joint>bl_leg_to_wheel_bl</left_joint>
         <right_joint>br_leg_to_wheel_br</right_joint>
 
-        <!-- kinematics -->
+     
         <wheel_separation>1.05</wheel_separation>
         <wheel_diameter>0.4</wheel_diameter>
 
-        <!-- limits -->
         <max_wheel_torque>20</max_wheel_torque>
         <max_wheel_acceleration>1.0</max_wheel_acceleration>
 
-        <!-- output -->
         <publish_odom>true</publish_odom>
         <publish_odom_tf>true</publish_odom_tf>
         <publish_wheel_tf>true</publish_wheel_tf>
@@ -73,7 +100,7 @@
 
       </plugin>
     </gazebo>
-    
+    -->
     <!-- Imu sensor plugin -->
     <gazebo reference="imu_link">
       <gravity>true</gravity>

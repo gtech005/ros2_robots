@@ -23,7 +23,7 @@ import os
 from pathlib import Path
 
 MY_NEO_ROBOT = 'mpo_700' #os.environ['MY_ROBOT']
-MY_NEO_ENVIRONMENT = os.environ['MAP_NAME']
+MY_NEO_ENVIRONMENT = 'map_name' #os.environ['MAP_NAME']
 
 def generate_launch_description():
     default_world_path = os.path.join(get_package_share_directory('neo_simulation2'), 'worlds', MY_NEO_ENVIRONMENT + '.world')

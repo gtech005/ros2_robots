@@ -1,0 +1,125 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+    <gazebo reference="main_box">
+      <material>Gazebo/Blue</material>
+    </gazebo>
+
+    <!--Front wheel assembly-->
+    <!--
+    <gazebo reference="fl_leg">
+      
+    </gazebo>
+
+    <gazebo reference="wheel_fl">
+      
+    </gazebo>
+
+    <gazebo reference="fr_leg">
+      
+    </gazebo>
+
+    <gazebo reference="wheel_fr">
+      
+    </gazebo> -->
+
+    <!--Front steering wheel assembly-->
+    <gazebo reference="fsl_leg">
+      
+    </gazebo>
+
+    <gazebo reference="wheel_fsl">
+      <material>Gazebo/DarkGrey</material>    
+    </gazebo>
+
+    <gazebo reference="fsr_leg">
+      
+    </gazebo>
+
+    <gazebo reference="wheel_fsr">
+      <material>Gazebo/DarkGrey</material>        
+    </gazebo>
+
+    <gazebo reference="bl_leg">
+      
+    </gazebo>
+
+    <gazebo reference="wheel_bl">
+      <material>Gazebo/DarkGrey</material>  
+    </gazebo>
+
+    <gazebo reference="br_leg">
+      
+    </gazebo>
+
+    <gazebo reference="wheel_br">
+      <material>Gazebo/DarkGrey</material>  
+    </gazebo>
+
+    <gazebo reference="imu_link">
+      <material>Gazebo/Grey</material>
+    </gazebo>
+
+
+    <gazebo>
+      <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so"/>
+    </gazebo>
+      
+ 
+    <!-- Imu sensor plugin -->
+    <gazebo reference="imu_link">
+      <gravity>true</gravity>
+      <sensor name='imu_sensor' type='imu'>
+          <always_on>1</always_on>
+          <update_rate>100</update_rate>
+          <visualize>1</visualize>
+        
+          <plugin name='imu_plugin' filename='libgazebo_ros_imu_sensor.so'>
+              <topicName>imu_data</topicName>
+              <bodyName>imu_link</bodyName>
+              <updateRateHZ>10.0</updateRateHZ>
+              <gaussianNoise>0.0</gaussianNoise>
+              <xyzOffset>0 0 0</xyzOffset>
+              <rpyOffset>0 0 0</rpyOffset>
+          </plugin>
+          <pose>0 0 0 0 0 0</pose>
+      </sensor>
+    </gazebo>
+
+    <!--
+    <gazebo>
+      <plugin name='diff_drive' filename='libgazebo_ros_diff_drive.so'>
+
+        
+        <left_joint>bl_leg_to_wheel_bl</left_joint>
+        <right_joint>br_leg_to_wheel_br</right_joint>
+
+     
+        <wheel_separation>1.05</wheel_separation>
+        <wheel_diameter>0.4</wheel_diameter>
+
+        <max_wheel_torque>20</max_wheel_torque>
+        <max_wheel_acceleration>1.0</max_wheel_acceleration>
+
+        <publish_odom>true</publish_odom>
+        <publish_odom_tf>true</publish_odom_tf>
+        <publish_wheel_tf>true</publish_wheel_tf>
+
+        <odometry_frame>odom</odometry_frame>
+        <robot_base_frame>main_box</robot_base_frame>
+
+      </plugin>
+    </gazebo>
+    -->
+    <!-- 
+    <gazebo>
+      <plugin name="object_controller" filename="libgazebo_ros_planar_move.so">
+        <commandTopic>cmd_vel</commandTopic>
+        <odometryTopic>odom</odometryTopic>
+        <odometryFrame>odom</odometryFrame>
+        <odometryRate>20.0</odometryRate>
+        <robotBaseFrame>main_box</robotBaseFrame>
+      </plugin>
+    </gazebo> -->
+
+</robot>
