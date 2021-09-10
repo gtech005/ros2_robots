@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+
+<!--
+License: Apache 2.0. See LICENSE file in root directory.
+Copyright(c) 2017 PAL Robotics, S.L. All Rights Reserved
+This is the Gazebo URDF model for the Intel RealSense D435 camera
+-->
+  
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+    <xacro:macro name="gps_gazebo_unit" params="name:=gps_sensor">
+        <gazebo reference="${name}_baseplate">
+            <material>Gazebo/Indigo</material>
+        </gazebo>
+
+        <gazebo reference="${name}_supportbar">
+            <material>Gazebo/Grey</material>
+        </gazebo>
+
+        <gazebo reference="${name}_sphere">
+            <material>Gazebo/Red</material>
+        </gazebo>
+
+
+    </xacro:macro>
+
+    <xacro:gps_gazebo_unit name="gps_right"/>
+    <xacro:gps_gazebo_unit name="gps_left"/>
+
+        <!-- GPS Sensor -->
+
+        <!-- GPS Sensor -->
+
+
+
+</robot>

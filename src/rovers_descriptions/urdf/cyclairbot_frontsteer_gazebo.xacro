@@ -76,7 +76,7 @@
         
           <plugin name='imu_plugin' filename='libgazebo_ros_imu_sensor.so'>
               <topicName>imu_data</topicName>
-              <bodyName>imu_link</bodyName>
+              <bodyName>imu_lin</bodyName>
               <updateRateHZ>10.0</updateRateHZ>
               <gaussianNoise>0.0</gaussianNoise>
               <xyzOffset>0 0 0</xyzOffset>
@@ -86,6 +86,38 @@
       </sensor>
     </gazebo>
 
+    <!-- Imu s -->
+    <gazebo reference="gps_left_baseplate">
+      <sensor name="gps_sensor1" type="gps">
+          <always_on>true</always_on>
+          <update_rate>10.0</update_rate>
+          <plugin name="left_gps_sim" filename="libgazebo_ros_gps_sensor.so">
+              <ros>
+                  <!-- <namespace>/br</namespace> -->
+                  <remapping>left_gps_sim/out:=gps_left</remapping>
+              </ros>             
+              <frame_name>gps_left_baseplate</frame_name>
+          </plugin>
+      </sensor>
+    </gazebo>
+
+
+    <gazebo reference="gps_right_baseplate">
+        <sensor name="gps_sensor2" type="gps">
+            <always_on>true</always_on>
+            <update_rate>10.0</update_rate>
+            <plugin name="right_gps_sim" filename="libgazebo_ros_gps_sensor.so">
+                <ros>
+                    <!-- <namespace>/br</namespace> -->
+                    <remapping>right_gps_sim/out:=gps_right</remapping>
+                </ros>
+                <drift>5.0 5.0 5.0</drift>
+                <gaussian_noise>0.1 0.1 0.1</gaussian_noise>
+                <frame_name>gps_right_baseplate</frame_name>
+            </plugin>
+        </sensor>
+        <material>Gazebo/Grey</material>
+    </gazebo>
     <!--
     <gazebo>
       <plugin name='diff_drive' filename='libgazebo_ros_diff_drive.so'>

@@ -19,10 +19,6 @@
     <color rgba="0 1.0 1.0 1.0"/>
   </material>
 
-  <!-- Gazebo references-->
-  <xacro:include filename="$(find ackermann_vehicle_description)/urdf/cyclairbot/cyclairbot_gazebo.xacro"/>
-
-
   <!-- Main robot body-->
   <link name="base_footprint"/>
 

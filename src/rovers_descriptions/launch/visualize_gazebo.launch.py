@@ -50,7 +50,7 @@ def generate_launch_description():
                 [
                     FindPackageShare("rovers_descriptions"),
                     "urdf",
-                    "cyclairbot_urdf.xacro",
+                    "cyclairbot_v2.xacro",
                 ]
             ),
             " use_sim:=true",
