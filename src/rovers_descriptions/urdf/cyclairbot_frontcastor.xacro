@@ -1,0 +1,333 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="cyclair_frontsteer">
+ 
+ <!-- Rover should be facing X axis -->
+
+  <!--Despite the name, this is actually gray plastic.-->
+  <material name="grey_plastic">
+    <!-- <unreal_material path="Material'/AirSim/VehicleAdv/SUV/AutomotiveMaterials/Materials/Plastic/MI_Plastic_Matte_Black.MI_Plastic_Matte_Black'"/> -->
+    <color rgba="0 1.0 1.0 1.0"/>
+  </material>
+  
+  <material name="black_plastic">
+    <!-- <unreal_material path="Material'/AirSim/VehicleAdv/SUV/AutomotiveMaterials/Materials/Plastic/M_Plastic_Matte.M_Plastic_Matte'"/> -->
+    <color rgba="0 1.0 1.0 1.0"/>
+  </material>
+
+  <material name="tire_rubber">
+    <!-- <unreal_material path="Material'/AirSim/VehicleAdv/SUV/AutomotiveMaterials/Materials/Rubber/M_TireRubber.M_TireRubber'"/> -->
+    <color rgba="0 1.0 1.0 1.0"/>
+  </material>
+
+  <!-- Main robot body-->
+  <link name="base_footprint"/>
+
+  <joint name="footprint_mainbox" type="fixed">
+    <parent link="base_footprint"/>
+    <child link="main_box"/>
+    <origin rpy="0 0 0" xyz="0 0 0.3"/>
+    <axis rpy="0 0 0" xyz="0 0 1"/>
+  </joint>
+
+  <link name="main_box">
+    <visual>
+      <geometry>
+        <box size="1 0.8 0.6"/>
+      </geometry>
+      <material name="black_plastic"/>
+    </visual>
+    <collision>
+        <geometry>
+            <!-- The to-be-commented XML block goes here. -->
+            <box size="1 0.8 0.6"/>
+        </geometry>
+    </collision>
+    <inertial>
+      <mass value="50"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+  </link>
+
+<!--CASTE FRONT WHEEL -->
+  <link name="fc_leg">
+    <visual>
+      <geometry>
+        <cylinder length="0.6" radius="0.05"/>
+      </geometry>
+      <material name="black_plastic"/>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="0.6" radius="0.05"/>
+       </geometry>
+    </collision>
+    <inertial>
+      <mass value="6"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+  </link>
+
+  <gazebo reference="fc_leg">
+    <turnGravityOff>false</turnGravityOff>
+  </gazebo>
+
+  <joint name="main_box_to_fc_leg" type="fixed">
+    <parent link="main_box"/>
+    <child link="fc_leg"/>
+    <origin rpy="0 0 0" xyz="0.5 0.0 -0.0"/>
+    <axis rpy="0 0 0" xyz="0 0 1"/>
+    <!--limit lower="-0.5" upper="0.5" effort="10" velocity="0.5"/-->
+  </joint>
+
+  <!-- Castor cylindrical wheel with mount -->
+  <link name="castor_mount_link">
+    <visual>
+      <geometry>
+        <box size="0.1145 0.1 0.0057"/>
+      </geometry>
+    </visual>
+    <collision>
+        <geometry>
+          <box size="0.1145 0.1 0.0057"/>
+        </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.1"/>
+      <inertia ixx="1.0e-5" ixy="0.0" ixz="0.0" iyy="1.0e-5" iyz="0.0" izz="1.0e-5"/>
+    </inertial>
+  </link>
+
+  <gazebo reference="castor_mount_link">
+
+  </gazebo>
+
+  <joint name="fc_leg_to_castor_mount" type="fixed">
+    <parent link="fc_leg"/>
+    <child link="castor_mount_link"/>
+    <origin rpy="0 0 0" xyz="0.0 0.0 -0.3"/>
+    <axis rpy="0 0 0" xyz="0 0 1"/>
+    <!--limit lower="-0.5" upper="0.5" effort="10" velocity="0.5"/-->
+  </joint>
+
+  <link name="castor_dummy_link">
+    <visual>
+      <geometry>
+        <box size="0.02 0.02 0.02"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.02 0.02 0.02"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1.5"/>
+      <inertia ixx="1.0e-4" ixy="0.0" ixz="0.0" iyy="1.0e-4" iyz="0.0" izz="1.0e-4"/>
+    </inertial>
+  </link>
+
+  <gazebo reference="castor_dummy_link">
+
+  </gazebo>
+
+  <joint name="castor_mount_to_dummy_link" type="fixed">
+    <parent link="castor_mount_link"/>
+    <child link="castor_dummy_link"/>
+    <origin rpy="0 0 0" xyz="0.0 0.0 -0.01"/>
+    <axis rpy="0 0 0" xyz="0 0 1"/>
+    <!--limit lower="-0.5" upper="0.5" effort="10" velocity="0.5"/-->
+  </joint>
+
+  <link name="castor_wheel_link">
+    <visual>
+      <geometry>
+        <sphere radius="0.08"/>
+      </geometry>
+      <origin rpy="1.57079632679 0 0" xyz="0 0 0"/>
+    </visual>
+    <collision>
+      <geometry>
+        <sphere radius="0.08"/>
+      </geometry>
+      <origin rpy="1.57079632679 0 0" xyz="0 0 0"/>
+    </collision>
+    <inertial>
+      <mass value="1.5"/>
+      <inertia ixx="1.0e-4" ixy="0.0" ixz="0.0" iyy="1.0e-4" iyz="0.0" izz="1.0e-4"/>
+    </inertial>
+  </link>
+
+  <gazebo reference="castor_wheel_link">
+  </gazebo>
+
+  <joint name="castor_dummy_to_wheel_link" type="continuous">
+    <parent link="castor_dummy_link"/>
+    <child link="castor_wheel_link"/>
+    <origin rpy="0 0 0" xyz="-0.0 0.0 -0.2"/>
+    <axis rpy="0 0 0" xyz="0 1 0"/>
+  </joint>
+
+<!-- END of Castor wheel configuration -->
+
+<!-- BACK STEERING LEFT LEG ===================================================== -->
+  <link name="bl_leg">
+    <visual>
+      <geometry>
+        <cylinder length="0.6" radius="0.05"/>
+      </geometry>
+      <material name="black_plastic"/>
+    </visual>
+    <collision>
+        <geometry>
+            <cylinder length="0.6" radius="0.05"/>
+        </geometry>
+    </collision>
+    <inertial>
+      <mass value="6"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+  </link>
+  
+  <joint name="main_box_to_bl_leg" type="fixed">
+    <parent link="main_box"/>
+    <child link="bl_leg"/>
+    <origin rpy="0 0 0" xyz="-0.5 0.5 0.1"/>
+    <axis rpy="0 0 0" xyz="0 0 1"/>
+    <!--limit lower="-0.5" upper="0.5" effort="10" velocity="0.5"/-->
+  </joint>
+
+  <link name="wheel_bl">
+    <visual>
+      <geometry>
+        <cylinder length="0.15" radius="0.2"/>
+      </geometry>
+      <material name="tire_rubber"/>
+    </visual>
+    <collision>
+        <geometry>
+           <cylinder length="0.15" radius="0.2"/>
+        </geometry>
+    </collision>
+    <inertial>
+      <mass value="6"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+  </link>
+  
+  <joint name="bl_leg_to_wheel_bl" type="continuous">
+    <parent link="bl_leg"/>
+    <child link="wheel_bl"/>
+    <origin rpy="0 1.5707 1.5707" xyz="0.0 -0.0 -0.5"/>
+    <axis rpy="0 0 0" xyz="0 0 1"/>
+    <!--limit lower="0" upper="0" effort="10000" velocity="1"/-->
+  </joint>
+
+<!-- BACK STEERING RIGHT LEG ====================================================-->
+  <link name="br_leg">
+    <visual>
+      <geometry>
+        <cylinder length="0.6" radius="0.05"/>
+      </geometry>
+      <material name="black_plastic"/>
+    </visual>
+    <collision>
+        <geometry>
+            <cylinder length="0.6" radius="0.05"/>
+        </geometry>
+    </collision>
+    <inertial>
+      <mass value="6"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+  </link>
+  
+  <joint name="main_box_to_br_leg" type="fixed">
+    <parent link="main_box"/>
+    <child link="br_leg"/>
+    <origin rpy="0 0 0" xyz="-0.5 -0.5 0.1"/>
+    <axis rpy="0 0 0" xyz="0 0 1"/>
+    <!--limit lower="-0.5" upper="0.5" effort="10" velocity="0.5"/-->
+  </joint>
+
+  <link name="wheel_br">
+    <visual>
+      <geometry>
+        <cylinder length="0.15" radius="0.2"/>
+      </geometry>
+      <material name="tire_rubber"/>
+    </visual>
+    <collision>
+        <geometry>
+           <cylinder length="0.15" radius="0.2"/>
+        </geometry>
+    </collision>
+    <inertial>
+      <mass value="6"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+  </link>
+  
+  <joint name="br_leg_to_wheel_br" type="continuous">
+    <parent link="br_leg"/>
+    <child link="wheel_br"/>
+    <origin rpy="0 1.5707 1.5707" xyz="0.0 0.0 -0.5"/>
+    <axis rpy="0 0 0" xyz="0 0 1"/>
+    <!--limit lower="0" upper="0" effort="10000" velocity="1"/-->
+  </joint>
+
+<!-- IMU LINK -->
+  <link name="imu_link">
+    <visual>
+      <geometry>
+        <box size="0.1 0.1 0.01"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.1 0.1 0.01"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.05"/>
+      <inertia ixx="1.0e-5" ixy="0.0" ixz="0.0" iyy="1.0e-5" iyz="0.0" izz="1.0e-5"/>
+    </inertial>
+  </link>
+
+  <joint name="imu_to_mainbox" type="fixed">
+    <parent link="main_box"/>
+    <child link="imu_link"/>
+    <origin rpy="0 0 0" xyz="0 0 0.3005"/>
+    <axis rpy="0 0 0" xyz="0 0 1"/>
+  </joint>
+
+  <!--TRANSMISSION OF THE WHEEL JOINTS-->
+  <!-- Transmission is important to link the joints and the controller -->
+  <!-- Transmission of front right wheel -->
+
+  <!-- BACK DRIVES-->
+  <!-- Transmission of back right wheel -->
+  <transmission name="br_leg_to_wheel_br_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="br_leg_to_wheel_br">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="br_leg_to_wheel_br_motor">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+  <!-- Transmission of back left wheel -->
+  <transmission name="bl_leg_to_wheel_bl_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="bl_leg_to_wheel_bl">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="bl_leg_to_wheel_bl_motor">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+
+
+</robot>

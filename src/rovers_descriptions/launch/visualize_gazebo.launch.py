@@ -18,10 +18,10 @@ from ament_index_python.packages import get_package_share_directory
 
 
 from launch import LaunchDescription
-from launch.actions import ExecuteProcess, IncludeLaunchDescription, RegisterEventHandler
+from launch.actions import ExecuteProcess, IncludeLaunchDescription, RegisterEventHandler, DeclareLaunchArgument
 from launch.event_handlers import OnProcessExit
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import Command, FindExecutable, PathJoinSubstitution
+from launch.substitutions import Command, FindExecutable, PathJoinSubstitution, LaunchConfiguration, PythonExpression
 from launch_ros.substitutions import FindPackageShare
 
 from launch_ros.actions import Node
@@ -30,13 +30,26 @@ import xacro
 
 
 def generate_launch_description():
+    use_sim_time = LaunchConfiguration('use_sim_time')
+    pkg_share = FindPackageShare(package='rovers_descriptions').find('rovers_descriptions')
+    world_file_name = 'redlinescurved.world'
+    world_path = os.path.join(pkg_share, 'worlds', world_file_name)
+    world = LaunchConfiguration('world')
+    declare_world_cmd = DeclareLaunchArgument(
+                            name='world',
+                            default_value=world_path,
+                            description='Full path to the world model file to load')
     # Empty gazebo
     gazebo_default = IncludeLaunchDescription(
                 PythonLaunchDescriptionSource([os.path.join(
                     get_package_share_directory('gazebo_ros'), 'launch'), '/gazebo.launch.py']),
+                launch_arguments={'world': world}.items()
     )
 
-
+    declare_use_sim_time_cmd = DeclareLaunchArgument(
+        name='use_sim_time',
+        default_value='True',
+        description='Use simulation (Gazebo) clock if true')
 
     
     #cyclair_urdf = os.path.join(get_package_share_directory('rovers_descriptions'), 'urdf/rover_soft.urdf'))
@@ -50,13 +63,13 @@ def generate_launch_description():
                 [
                     FindPackageShare("rovers_descriptions"),
                     "urdf",
-                    "cyclairbot_v2.xacro",
+                    "cyclairbot_castorv1.xacro",
                 ]
             ),
-            " use_sim:=true",
+            " use_sim_time:=True",
         ]
     )
-    robot_description = {"robot_description": robot_description_content}
+    robot_description = {"robot_description": robot_description_content, "use_sim_time":True}
 
     node_robot_state_publisher = Node(
         package='robot_state_publisher',
@@ -69,12 +82,13 @@ def generate_launch_description():
     spawn_cyclairbot = Node(package='gazebo_ros', executable='spawn_entity.py',
                         arguments=['-topic', 'robot_description',
                                    '-entity', 'cyclairbot',
-                                   '-x', '1.0',
-                                   '-y', '1.0',
+                                   '-x', '0.0',
+                                   '-y', '0.0',
                                    '-z', '0.5'],
                         output='screen')
 
     return LaunchDescription([
+        declare_world_cmd,
         gazebo_default,
         node_robot_state_publisher,
         spawn_cyclairbot,

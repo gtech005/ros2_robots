@@ -30,6 +30,9 @@ import xacro
 
 
 def generate_launch_description():
+    # path to the Cyclair test world
+    test_world_path = os.path.join(get_package_share_directory('rovers_descriptions'), 'worlds', 'redlinescurved.world')
+ 
     # path to the Orchard field world
     orchard_world_path = os.path.join(get_package_share_directory('orchard_gazebo'), 'worlds', 'orchardfield.world')
 
@@ -48,12 +51,12 @@ def generate_launch_description():
     )
 
     # If want to directly use the world with orchard field
-    gazebo_orchard = IncludeLaunchDescription(
+    gazebo_testworld = IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
                 os.path.join(get_package_share_directory('gazebo_ros'), 'launch', 'gazebo.launch.py')
             ),
             launch_arguments={
-                'world': orchard_world_path,
+                'world': test_world_path,
                 'verbose': 'true'
             }.items()
         )
@@ -80,7 +83,7 @@ def generate_launch_description():
                 [
                     FindPackageShare("rovers_descriptions"),
                     "urdf",
-                    "cyclairbot_urdf.xacro",
+                    "cyclairbot_v2.xacro",
                 ]
             ),
             " use_sim:=true",
@@ -106,7 +109,7 @@ def generate_launch_description():
 
     return LaunchDescription([
         #gazebo_orchard,
-        gazebo_trafficcone, 
+        gazebo_testworld, 
         #gazebo_default,
         node_robot_state_publisher,
         spawn_cyclairbot,

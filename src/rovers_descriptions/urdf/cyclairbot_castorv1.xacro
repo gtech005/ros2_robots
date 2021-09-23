@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="cyclairbot_castorv1" >
+
+  <!-- bring different parts of robots  -->
+  <xacro:include filename="$(find rovers_descriptions)/urdf/cyclairbot_frontsteer_gazebo.xacro"/>
+
+  <xacro:include filename="$(find rovers_descriptions)/urdf/cyclairbot_frontcastor.xacro"/>
+  
+  <!--Add Realsense D435i sensor -->
+  <xacro:arg name="use_nominal_extrinsics" default="false" />
+  <xacro:include filename="$(find realsense2_description)/urdf/_d435.urdf.xacro"/>
+
+  <!-- Adding realsense link to the robot base -->
+  <link name="realsense_baselink"/>
+  <xacro:sensor_d435 parent="realsense_baselink" use_nominal_extrinsics="$(arg use_nominal_extrinsics)">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </xacro:sensor_d435>
+
+  <joint name="realsense_bot" type="fixed">
+    <parent link="main_box"/>
+    <child link="realsense_baselink"/>
+    <origin xyz="0.5 0 0.3" rpy="0 0.5 0"/>
+    <axis rpy="0 0 0" xyz="0 0 1"/>
+  </joint>
+
+
+  <!--Add Gps sensor  -->
+
+  <xacro:arg name="gps_num" default="2" />
+  <xacro:include filename="$(find rovers_descriptions)/urdf/gpsbase.xacro"/>
+  
+  <joint name="gps_bot" type="fixed">
+    <parent link="main_box"/>
+    <child link="linking_plate"/>
+    <origin xyz="-0.5 0 0.31" rpy="0 0 0"/>
+    <axis rpy="0 0 0" xyz="0 0 1"/>
+  </joint> 
+
+
+</robot>
