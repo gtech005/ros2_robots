@@ -1,0 +1,3 @@
+[submodule "src/neo_simulation2"]
+	path = src/neo_simulation2
+	url = git@github.com:gtech005/neo_simulation2.git
