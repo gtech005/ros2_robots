@@ -1,3 +1,9 @@
 [submodule "src/neo_simulation2"]
 	path = src/neo_simulation2
 	url = git@github.com:gtech005/neo_simulation2.git
+[submodule "src/realsense_gazebo_plugin"]
+	path = src/realsense_gazebo_plugin
+	url = git@github.com:gtech005/realsense_gazebo_plugin.git
+[submodule "src/realsense-ros"]
+	path = src/realsense-ros
+	url = git@github.com:gtech005/realsense-ros.git
