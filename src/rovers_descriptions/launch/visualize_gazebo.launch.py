@@ -66,10 +66,10 @@ def generate_launch_description():
                     "cyclairbot_castorv1.xacro",
                 ]
             ),
-            " use_sim_time:=True",
+            #" use_sim_time:=true",
         ]
     )
-    robot_description = {"robot_description": robot_description_content, "use_sim_time":True}
+    robot_description = {"robot_description": robot_description_content}
 
     node_robot_state_publisher = Node(
         package='robot_state_publisher',
